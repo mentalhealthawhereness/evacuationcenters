@@ -1,4 +1,4 @@
-DROP FUNCTION IF EXISTS insert_crowd_mapping_data(text,text,text,text,text,text,text,text,text,text);
+DROP FUNCTION IF EXISTS insert_crowd_mapping_data(text,text,text,text,text,text,text,text);
 --Assumes only one value being inserted
 
 CREATE OR REPLACE FUNCTION insert_crowd_mapping_data (
