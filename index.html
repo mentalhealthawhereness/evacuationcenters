@@ -95,7 +95,7 @@
 	          };         
 	          
 	          var cartoData = null; //These adds data from Carto using the SQL API, declares variables, and writes the SQL selection query
-	          var sqlQuery = "SELECT the_geom, fname, alt, region, muni, type, source, researcher FROM " + config.cartoTablename;
+	          var sqlQuery = "SELECT the_geom, name, alt, region, muni, type, source, researcher FROM " + config.cartoTablename;
 	          var map = L.map('map', { center: config.mapcenter, zoom: 5});   // Creates the Leaflet map object
 	          map.addControl(new L.Control.Fullscreen());
 		
@@ -121,7 +121,7 @@
 	              $.getJSON(getData, function (data) {
 	                  cartoData = L.geoJson(data, {
 	                      onEachFeature: function (feature, layer) {
-	                          layer.bindPopup('<b>Evacuation Center Name: <\/b>' + feature.properties.fname + '<br>' + '<b>Alternate Name: <\/b>' + feature.properties.alt + '<br>' + '<b>Region: <\/b>' + feature.properties.region + '<br>' + '<b>Muni: <\/b>' + feature.properties.muni + '<br>' + '<b>Type: <\/b>' + feature.properties.type + '<br>' + '<b>Source: <\/b>' + feature.properties.source + '<br>' + '<b>Researcher: <\/b>' + feature.properties.researcher + '');
+	                          layer.bindPopup('<b>Evacuation Center Name: <\/b>' + feature.properties.name + '<br>' + '<b>Alternate Name: <\/b>' + feature.properties.alt + '<br>' + '<b>Region: <\/b>' + feature.properties.region + '<br>' + '<b>Muni: <\/b>' + feature.properties.muni + '<br>' + '<b>Type: <\/b>' + feature.properties.type + '<br>' + '<b>Source: <\/b>' + feature.properties.source + '<br>' + '<b>Researcher: <\/b>' + feature.properties.researcher + '');
 	                      }           
 	                  }).addTo(map);
 	              });
