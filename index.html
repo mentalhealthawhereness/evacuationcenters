@@ -44,11 +44,11 @@
 			<fieldset style="border: none;">
 				<ul style="list-style-type: none; padding-left: 0px">
 					<li><label for="fname">Name</label></li>
-					<li><input id="fname" name="fname" placeholder="Name of Service/Facility" size="40" type="text" required></li>
-					<li><label for="doctor">Doctor</label></li>
-					<li><textarea cols="40" id="doctor" name="doctor" placeholder="Who should we look for?" rows="5"></textarea></li>
-					<li><label for="address">Address</label></li>
-					<li><textarea cols="40" id="address" name="address" placeholder="Where can we find this?" rows="5"></textarea></li>
+					<li><input id="fname" name="fname" placeholder="Name of Evacuation Center" size="40" type="text" required></li>
+					<li><label for="alt">Alternate Name</label></li>
+					<li><textarea cols="40" id="alt" name="alt" placeholder="Alternate Name" rows="5"></textarea></li>
+					<li><label for="region">Region</label></li>
+					<li><textarea cols="40" id="region" name="region" placeholder="Region" rows="5"></textarea></li>
 					<li><label for="contactnum">Contact Number</label></li>
 					<li><input id="contactnum" name="contactnum" placeholder="Telephone or Mobile number to call" size="40" type="text" required></li>
 					<li><label for="email">Email Address</label></li>
@@ -101,7 +101,7 @@
 	          };         
 	          
 	          var cartoData = null; //These adds data from Carto using the SQL API, declares variables, and writes the SQL selection query
-	          var sqlQuery = "SELECT the_geom, address, name, doctor, contactnum, email, fee, website, hours, notes FROM " + config.cartoTablename;
+	          var sqlQuery = "SELECT the_geom, region, name, alt, contactnum, email, fee, website, hours, notes FROM " + config.cartoTablename;
 	          var map = L.map('map', { center: config.mapcenter, zoom: 5});   // Creates the Leaflet map object
 	          map.addControl(new L.Control.Fullscreen());
 		
@@ -186,8 +186,8 @@
 	          });
 	          function setData() {
 	              var enteredFname = "'" + JSON.stringify(fname.value.replace("'", "''")) + "'"
-	              var enteredAddress = "'" + JSON.stringify(address.value.replace("'", "''")) + "'"	
-	              var enteredDoctor = "'" + JSON.stringify(doctor.value.replace("'", "''")) + "'"			      
+	              var enteredRegion = "'" + JSON.stringify(region.value.replace("'", "''")) + "'"	
+	              var enteredAlt = "'" + JSON.stringify(alt.value.replace("'", "''")) + "'"			      
 	              var enteredContactnum = "'" + JSON.stringify(contactnum.value.replace("'", "''")) + "'"	
 	              var enteredEmail = "'" + JSON.stringify(email.value.replace("'", "''")) + "'"	
 	              var enteredFee = "'" + JSON.stringify(fee.value.replace("'", "''")) + "'"			  
@@ -200,9 +200,9 @@
 	                  var drawing = "'" + JSON.stringify(layer.toGeoJSON().geometry) + "'",   //Converts the drawing to a GeoJSON
 	                      sql = "SELECT " + config.cartoInsertFunction + "("; //Constructs the SQL Query from the entered parameters on the dialog/form
 	                  sql += drawing;
-	                  sql += "," + enteredAddress;
+	                  sql += "," + enteredRegion;
 	                  sql += "," + enteredFname;
-	                  sql += "," + enteredDoctor;
+	                  sql += "," + enteredAlt;
 	                  sql += "," + enteredContactnum;
 	                  sql += "," + enteredEmail;			      
 	                  sql += "," + enteredFee;
@@ -226,9 +226,9 @@
 	                      }
 	                  });
 	                  var newData = layer.toGeoJSON();
-	                    newData.properties.address = address.value;
+	                    newData.properties.address = region.value;
 	                    newData.properties.name = fname.value;
-	                    newData.properties.doctor = doctor.value;
+	                    newData.properties.doctor = alt.value;
 	                    newData.properties.contactnum = contactnum.value;
 	                    newData.properties.email = email.value;			      
 	                    newData.properties.fee = fee.value;
