@@ -58,7 +58,9 @@
 					<li><label for="type">Type</label></li>
 					<li><input id="type" name="type" placeholder="School, Brgy Hall, etc." size="40" type="text"></li>
 					<li><label for="approxnum">No. of Evacuees</label></li>
-					<li><textarea cols="40" id="approxnum" name="approxnum" placeholder="Approximate number of evacuees as of (pls input date)" rows="2"></textarea></li>					
+					<li><textarea cols="40" id="approxnum" name="approxnum" placeholder="Approximate number of evacuees as of (pls input date)" rows="2"></textarea></li>
+					<li><label for="needs">Needs</label></li>
+					<li><textarea cols="40" id="needs" name="needs" placeholder="Evacuees' Needs / To prioritize for this EC" rows="5"></textarea></li>					
 					<li><label for="researcher">Researcher</label></li>
 					<li><textarea cols="40" id="researcher" name="researcher" placeholder="Researcher or other additional notes" rows="5"></textarea></li>
 				</ul><input style="position:absolute; top:-1000px" tabindex="-1" type="submit">
@@ -101,7 +103,7 @@
 	          };         
 	          
 	          var cartoData = null; //These adds data from Carto using the SQL API, declares variables, and writes the SQL selection query
-	          var sqlQuery = "SELECT the_geom, region, name, alt, prov, muni, brgy, type, approxnum, researcher FROM " + config.cartoTablename;
+	          var sqlQuery = "SELECT the_geom, region, name, alt, prov, muni, brgy, type, approxnum, needs, researcher FROM " + config.cartoTablename;
 	          var map = L.map('map', { center: config.mapcenter, zoom: 10});   // Creates the Leaflet map object
 	          map.addControl(new L.Control.Fullscreen());
 		
@@ -127,7 +129,7 @@
 	              $.getJSON(getData, function (data) {
 	                  cartoData = L.geoJson(data, {
 	                      onEachFeature: function (feature, layer) {
-	                          layer.bindPopup('<b>Name: <\/b>' + feature.properties.name + '<br>' + '<b>Alternate Name: <\/b>' + feature.properties.alt + '<br>' + '<b>Region: <\/b>' + feature.properties.region + '<br>' + '<b>Province: <\/b>' + feature.properties.prov + '<br>' + '<b>Municipality: <\/b>' + feature.properties.muni + '<br>' + '<b>Barangay: <\/b>' + feature.properties.brgy + '<br>' + '<b>Type: <\/b>' + feature.properties.type + '<br>' + '<b>Approximate number of Evacuees: <\/b>' + feature.properties.approxnum + '<br>' + '<b>Researcher: <\/b>' + feature.properties.researcher + '');
+	                          layer.bindPopup('<b>Name: <\/b>' + feature.properties.name + '<br>' + '<b>Alternate Name: <\/b>' + feature.properties.alt + '<br>' + '<b>Region: <\/b>' + feature.properties.region + '<br>' + '<b>Province: <\/b>' + feature.properties.prov + '<br>' + '<b>Municipality: <\/b>' + feature.properties.muni + '<br>' + '<b>Barangay: <\/b>' + feature.properties.brgy + '<br>' + '<b>Type: <\/b>' + feature.properties.type + '<br>' + '<b>What to prioritize for this EC (Needs of Evacuees): <\/b>' + feature.properties.needs + '<br>' + '<b>Approximate number of Evacuees: <\/b>' + feature.properties.approxnum + '<br>' + '<b>Researcher: <\/b>' + feature.properties.researcher + '');
 	                      }           
 	                  }).addTo(map);
 	              });
@@ -192,7 +194,8 @@
 	              var enteredMuni = "'" + JSON.stringify(muni.value.replace("'", "''")) + "'"	
 	              var enteredBrgy = "'" + JSON.stringify(brgy.value.replace("'", "''")) + "'"			  
 	              var enteredType = "'" + JSON.stringify(type.value.replace("'", "''")) + "'"		
-	              var enteredApproxnum = "'" + JSON.stringify(approxnum.value.replace("'", "''")) + "'"		
+	              var enteredApproxnum = "'" + JSON.stringify(approxnum.value.replace("'", "''")) + "'"
+	              var enteredNeeds = "'" + JSON.stringify(needs.value.replace("'", "''")) + "'"		      
 	              var enteredResearcher = "'" + JSON.stringify(researcher.value.replace("'", "''")) + "'";
 				  
 			  
@@ -208,6 +211,7 @@
 	                  sql += "," + enteredBrgy;
 	                  sql += "," + enteredType;
 	                  sql += "," + enteredApproxnum;
+	                  sql += "," + enteredNeeds;			      
 	                  sql += "," + enteredResearcher;              
 	                  sql += ");";
 	                  console.log(drawing);
@@ -234,6 +238,7 @@
 	                    newData.properties.brgy = brgy.value;
 	                    newData.properties.type = type.value;
 	                    newData.properties.approxnum = approxnum.value;
+	                    newData.properties.needs = needs.value;			      
 	                    newData.properties.researcher = researcher.value;                   
 	                  cartoData.addData(newData);
 	              });
