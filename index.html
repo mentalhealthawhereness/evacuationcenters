@@ -129,7 +129,7 @@
 	              $.getJSON(getData, function (data) {
 	                  cartoData = L.geoJson(data, {
 	                      onEachFeature: function (feature, layer) {
-	                          layer.bindPopup('<b>Name: <\/b>' + feature.properties.name + '<br>' + '<b>Alternate Name: <\/b>' + feature.properties.alt + '<br>' + '<b>Region: <\/b>' + feature.properties.region + '<br>' + '<b>Province: <\/b>' + feature.properties.prov + '<br>' + '<b>Municipality: <\/b>' + feature.properties.muni + '<br>' + '<b>Barangay: <\/b>' + feature.properties.brgy + '<br>' + '<b>Type: <\/b>' + feature.properties.type + '<br>' + '<b>What to prioritize for this EC (Needs of Evacuees): <\/b>' + feature.properties.needs + '<br>' + '<b>Approximate number of Evacuees: <\/b>' + feature.properties.approxnum + '<br>' + '<b>Researcher: <\/b>' + feature.properties.researcher + '');
+	                          layer.bindPopup('<b>Name: <\/b>' + feature.properties.name + '<br>' + '<b>Alternate Name: <\/b>' + feature.properties.alt + '<br>' + '<b>Region: <\/b>' + feature.properties.region + '<br>' + '<b>Province: <\/b>' + feature.properties.prov + '<br>' + '<b>Municipality: <\/b>' + feature.properties.muni + '<br>' + '<b>Barangay: <\/b>' + feature.properties.brgy + '<br>' + '<b>Type: <\/b>' + feature.properties.type + '<br>' + '<b>Specific/Priority Needs of the Internally Displaced People (IDPs) in the EC: <\/b>' + feature.properties.needs + '<br>' + '<b>Approximate number of IDPs: <\/b>' + feature.properties.approxnum + '<br>' + '<b>Researcher: <\/b>' + feature.properties.researcher + '');
 	                      }           
 	                  }).addTo(map);
 	              });
