@@ -30,7 +30,7 @@
 		        <h2>Click pins for information on the evacuation centers, or contribute data by adding points on the map. Please visit <a href="https://docs.google.com/spreadsheets/d/1IpGif_b6Ws1vs2mq3A9XB_0eUjQ2JWwJnJE6KJoIHB8/edit#gid=0">this link</a> for a live list of evacuation centers.</h2>	 	
 		</div>
 		<div id="controls">
-			<input onclick="startEdits()" type="button" value="Click to Start Editing"> <input onclick="stopEdits()" type="button" value="Stop Your Editing Session"><br> <font color="red">NOTE: Please contact Andi @anditabinas, David @mapmakerdavid, Rein @reintasico, or Kim @kimgotsitall on Twitter for questions.</font>
+			<input onclick="startEdits()" type="button" value="Click to Start Editing"> <input onclick="stopEdits()" type="button" value="Stop Your Editing Session"><br> <font color="red">NOTE: Please contact Andi @anditabinas, David @mapmakerdavid, Rein @reintasico, Kim @kimgotsitall, or Reichele @TiredReich on Twitter for questions.</font>
 			
 		</div>
 		<div id="map"></div>
@@ -59,6 +59,10 @@
 					<li><input id="type" name="type" placeholder="School, Brgy Hall, etc." size="40" type="text"></li>
 					<li><label for="approxnum">No. of Internally Displaced People (IDP)</label></li>
 					<li><textarea cols="40" id="approxnum" name="approxnum" placeholder="Approximate number of evacuees as of (pls input date)" rows="2"></textarea></li>
+					
+					<li><label for="campoic">Camp OIC and contact number</label></li>
+					<li><textarea cols="40" id="campoic" name="campoic" placeholder="Camp Manager or Camp Officer-in-Charge" rows="2"></textarea></li>					
+					
 					<li><label for="needs">Needs</label></li>
 					<li><textarea cols="40" id="needs" name="needs" placeholder="IDPs' Needs / To prioritize for this EC" rows="5"></textarea></li>					
 					<li><label for="researcher">Researcher</label></li>
@@ -103,7 +107,7 @@
 	          };         
 	          
 	          var cartoData = null; //These adds data from Carto using the SQL API, declares variables, and writes the SQL selection query
-	          var sqlQuery = "SELECT the_geom, region, name, alt, prov, muni, brgy, type, approxnum, needs, researcher FROM " + config.cartoTablename;
+	          var sqlQuery = "SELECT the_geom, region, name, alt, prov, muni, brgy, type, approxnum, campoic, needs, researcher FROM " + config.cartoTablename;
 	          var map = L.map('map', { center: config.mapcenter, zoom: 10});   // Creates the Leaflet map object
 	          map.addControl(new L.Control.Fullscreen());
 		
@@ -129,7 +133,7 @@
 	              $.getJSON(getData, function (data) {
 	                  cartoData = L.geoJson(data, {
 	                      onEachFeature: function (feature, layer) {
-	                          layer.bindPopup('<b>Name: <\/b>' + feature.properties.name + '<br>' + '<b>Alternate Name: <\/b>' + feature.properties.alt + '<br>' + '<b>Region: <\/b>' + feature.properties.region + '<br>' + '<b>Province: <\/b>' + feature.properties.prov + '<br>' + '<b>Municipality: <\/b>' + feature.properties.muni + '<br>' + '<b>Barangay: <\/b>' + feature.properties.brgy + '<br>' + '<b>Type: <\/b>' + feature.properties.type + '<br>' + '<b>Specific/Priority Needs of IDPs in the EC: <\/b>' + feature.properties.needs + '<br>' + '<b>Approx. no. of Internally Displaced People (IDPs): <\/b>' + feature.properties.approxnum + '<br>' + '<b>Researcher: <\/b>' + feature.properties.researcher + '');
+	                          layer.bindPopup('<b>Name: <\/b>' + feature.properties.name + '<br>' + '<b>Alternate Name: <\/b>' + feature.properties.alt + '<br>' + '<b>Region: <\/b>' + feature.properties.region + '<br>' + '<b>Province: <\/b>' + feature.properties.prov + '<br>' + '<b>Municipality: <\/b>' + feature.properties.muni + '<br>' + '<b>Barangay: <\/b>' + feature.properties.brgy + '<br>' + '<b>Type: <\/b>' + feature.properties.type + '<br>' + '<b>Specific/Priority Needs of IDPs in the EC: <\/b>' + feature.properties.needs + '<br>' + '<b>Approx. no. of Internally Displaced People (IDPs): <\/b>' + feature.properties.approxnum + '<br>' + '<b>Camp Manager/OIC: <\/b>' + feature.properties.campoic + '<br>' + '<b>Researcher: <\/b>' + feature.properties.researcher + '');
 	                      }           
 	                  }).addTo(map);
 	              });
@@ -195,6 +199,7 @@
 	              var enteredBrgy = "'" + JSON.stringify(brgy.value.replace("'", "''")) + "'"			  
 	              var enteredType = "'" + JSON.stringify(type.value.replace("'", "''")) + "'"		
 	              var enteredApproxnum = "'" + JSON.stringify(approxnum.value.replace("'", "''")) + "'"
+	              var enteredCampoic = "'" + JSON.stringify(campoic.value.replace("'", "''")) + "'		     
 	              var enteredNeeds = "'" + JSON.stringify(needs.value.replace("'", "''")) + "'"		      
 	              var enteredResearcher = "'" + JSON.stringify(researcher.value.replace("'", "''")) + "'";
 				  
@@ -211,6 +216,7 @@
 	                  sql += "," + enteredBrgy;
 	                  sql += "," + enteredType;
 	                  sql += "," + enteredApproxnum;
+	                  sql += "," + enteredCampoic;			      
 	                  sql += "," + enteredNeeds;			      
 	                  sql += "," + enteredResearcher;              
 	                  sql += ");";
@@ -238,6 +244,7 @@
 	                    newData.properties.brgy = brgy.value;
 	                    newData.properties.type = type.value;
 	                    newData.properties.approxnum = approxnum.value;
+	                    newData.properties.campoic = campoic.value;			      
 	                    newData.properties.needs = needs.value;			      
 	                    newData.properties.researcher = researcher.value;                   
 	                  cartoData.addData(newData);
